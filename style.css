@@ -1,0 +1,8 @@
+html {
+    box-sizing: border-box; /* To avoid adding extra width to a page when adding padding to any element */
+}
+
+body {
+    margin: 0; /* 0 on all 4 sides */
+    min-height: 100vh; /* VH = viewport height, full height of entire window, always stretch our background to the full height of the screen, even if content isn't enough */
+}
