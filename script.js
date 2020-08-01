@@ -48,15 +48,14 @@ async function getQuote(){
         }
         quoteText.innerText = data.quoteText;
         // Stop loader, show quote
-        showLoadingSpinner();
-        throw new Error('oops');
+        removeLoadingSpinner();
     } catch (error) {
         if(errorLimit < 3){
             errorLimit++;
             console.log(`Quote loading failed ${errorLimit} time(s)`, error);
             getQuote();
         } else {
-            console.log('Quote loading failed for good ', error);
+            console.log('Quote loading failed for good', error);
         }
     }
 }
