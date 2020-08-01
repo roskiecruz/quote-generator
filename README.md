@@ -1,2 +1,2 @@
-# Clean template
-This is a template for my personal use.
+# Quote generator
+This is a little experiment on mobile responsive design, SVG, and dealing with CORS issues.
