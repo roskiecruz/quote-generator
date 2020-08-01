@@ -1,3 +1,9 @@
+const quoteContainer = document.getElementById('quote__container');
+const quoteText= document.getElementById('quote-content');
+const authorText = document.getElementById('author');
+const twitterBtn = document.getElementById('twitter');
+const newQuoteBtn = document.getElementById('new-quote');
+
 // Get quote from Forismatic API
 async function getQuote(){
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
@@ -5,10 +11,21 @@ async function getQuote(){
     try {
         const response = await fetch(proxyUrl + apiUrl);
         const data = await response.json();
-        console.log(data);
+        // If author is blank, add 'Unknown' placeholder
+        if(data.quoteAuthor === ''){
+            authorText.innerText = 'Unknown';
+        } else {
+            authorText.innerText = data.quoteAuthor;
+        }
+        // Reduce font size for long quotes
+        if (data.quoteText.length > 120){
+            quoteText.classList.add('long-quote');
+        } else {
+            quoteText.classList.remove('long-quote');
+        }
+        quoteText.innerText = data.quoteText;
     } catch (error) {
         getQuote();
-        console.log('Whoops, no quote', error);
     }
 }
 
