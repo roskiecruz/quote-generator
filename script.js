@@ -5,16 +5,14 @@ const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
-const errorLimit = 0;
+let errorLimit = 0;
 
-// Show loading
-function loading() {
+function showLoadingSpinner() {
     loader.hidden = false;
     quoteContainer.hidden = true;
 }
 
-// Hide loading
-function complete(){
+function removeLoadingSpinner(){
     if (!loader.hidden){
         quoteContainer.hidden = false;
         loader.hidden = true;
@@ -23,7 +21,8 @@ function complete(){
 
 // Get quote from Forismatic API
 async function getQuote(){
-    loading();
+    showLoadingSpinner();
+    // We're using a proxy URL to get around the CORS issue.
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
     try {
@@ -49,13 +48,15 @@ async function getQuote(){
         }
         quoteText.innerText = data.quoteText;
         // Stop loader, show quote
-        complete();
+        showLoadingSpinner();
+        throw new Error('oops');
     } catch (error) {
-        if(errorLimit <= 3){
+        if(errorLimit < 3){
             errorLimit++;
+            console.log(`Quote loading failed ${errorLimit} time(s)`, error);
             getQuote();
         } else {
-            console.log('Uhhhh... ', error);
+            console.log('Quote loading failed for good ', error);
         }
     }
 }
